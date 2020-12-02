@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="angularApp">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thread comments</title>
+</head>
+<body>
+  <div class="layout" ng-controller="CommentsController as vm">
+    <script type="text/ng-template" id="commentsThread">
+      <p>{{ comment.text }}</p>
+      <form novalidate>
+        <button type="button" ng-click="vm.deleteComment(comment.id)">delete comment</button>
+        <input type="text" ng-model="vm.newCommentText[comment.id]">
+        <button type="submit" ng-click="vm.addComment(comment.id)" type="button">reply</button>
+      </form>
+      <ul ng-if="comment.children.length">
+        <li data-key="{{comment.id}}" ng-repeat="comment in comment.children track by comment.id" ng-include="'commentsThread'"></li>
+      </ul>
+    </script>
+
+    <div ng-if="vm.loading">loading...</div>
+    <div ng-hide="vm.loading">
+      <div id="react-count"></div>
+        <div ng-cloak ng-init="vm.getComments()">
+          <ul>
+            <li data-key="comment.id" ng-repeat="comment in vm.nestedComments track by comment.id" ng-include="'commentsThread'"></li>
+          </ul>
+          <form novalidate>
+            <input type="text" ng-model="vm.newCommentText[comment.id]">
+            <button type="submit" ng-click="vm.addComment()" type="button">add comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <script type="text/javascript" async src="./bundle.js"></script>
+</body>
+</html>
