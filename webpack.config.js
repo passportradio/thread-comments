@@ -8,6 +8,17 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
+  devServer: {
+    open: true
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Thread comments',
+      filename: 'index.html',
+      template: './index.html'
+    }),
+  ],
   module: {
     rules: [
       {
